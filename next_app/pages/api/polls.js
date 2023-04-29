@@ -15,8 +15,8 @@ export default function handler(req, res) {
     const { method } = req;
     switch (method) {
         case "GET":
-            // reverse() is used to show the latest poll first.
-            polls.reverse();
+            // order pools by id desc
+            polls.sort((a, b) => (a.id > b.id) ? -1 : 1)
             res.status(200).json(polls);
             break;
         case "POST":
