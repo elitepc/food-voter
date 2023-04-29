@@ -38,7 +38,7 @@ export default function PageWithJSbasedForm() {
 
         // Get the response data from server as JSON.
         // If server returns the name submitted, that means the form works.
-        location.reload()
+        window.location.reload()
     }
     return (
         // We pass the event to the handleSubmit() function on submit.
