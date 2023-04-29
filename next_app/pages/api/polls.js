@@ -1,35 +1,24 @@
+import supabase from "../../utils/supabase";
 
 
-const polls = [
-    {
-        id: 1,
-        name: "O que e que se come?",
-        answer1: {name: "Pizza de sushi", votes: 0},
-        answer2: {name: "Sushi de pizza", votes: 0},
-        answer3: {name: "Pizza de pizza", votes: 0},
-        answer4: {name: "Sushi de sushi", votes: 0},
-    }
-]
-export {polls}
-export default function handler(req, res) {
+export default async function handler(req, res) {
     const { method } = req;
     switch (method) {
         case "GET":
-            // order pools by id desc
-            polls.sort((a, b) => (a.id > b.id) ? -1 : 1)
-            res.status(200).json(polls);
+            const { data } = await supabase.from('polls').select('id, name, answer1, answer2, answer3, answer4').order('id', { ascending: false })
+            res.status(200).json(data);
             break;
         case "POST":
             const { name, answer1, answer2, answer3, answer4 } = req.body;
-            polls.push({
-                id: polls.length + 1,
+            let new_poll = {
                 name,
                 answer1: {name: answer1, votes: 0},
                 answer2: {name: answer2, votes: 0},
                 answer3: {name: answer3, votes: 0},
                 answer4: {name: answer4, votes: 0},
-            });
-            res.status(200).json(polls);
+            }
+            const { data1 } = await supabase.from('polls').insert(new_poll).select()
+            res.status(200).json(data1);
             break;
         default:
             res.setHeader("Allow", ["GET", "POST"]);

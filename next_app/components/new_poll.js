@@ -38,7 +38,6 @@ export default function PageWithJSbasedForm() {
 
         // Get the response data from server as JSON.
         // If server returns the name submitted, that means the form works.
-        const result = await response.json()
         location.reload()
     }
     return (
